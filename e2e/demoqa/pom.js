@@ -2,7 +2,6 @@ var _ = require('lodash');
 var fs = require('fs');
 var util = require('util');
 var config = require('./test.config.json');
-var interface = require('./interface.json');
 
 function byCss(value) {
     return element(by.css(value))
@@ -13,7 +12,7 @@ function capitalizeFirstLetter(string) {
 }
 
 function generatePom() {
-    var pom = {};//interface;
+    var pom = {};
 
     function setType(element) {
         function setName(valueName, keyName) {
