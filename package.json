@@ -4,7 +4,8 @@
   "description": "",
   "main": "protractor.conf.js",
   "scripts": {
-    "test": "protractor protractor.conf.js"
+    "test": "protractor protractor.conf.js",
+    "start": "webdriver-manager start"
   },
   "author": "mgruca",
   "license": "ISC",
@@ -13,6 +14,8 @@
     "protractor": "^5.1.1"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "file-system": "^2.2.2",
+    "lodash": "^4.17.4",
+    "util": "^0.10.3"
   }
 }
