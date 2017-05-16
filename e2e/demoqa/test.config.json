@@ -1,0 +1,34 @@
+{
+  "page": {
+    "URL": "http://demoqa.com/registration/",
+    "title": "Registration | Demoqa",
+    "elements": [
+      {
+        "type": "input",
+        "methods": [
+          "enter",
+          "get"
+        ],
+        "selectors": {
+          "firstName": "#name_3_firstname",
+          "lastName": "#name_3_lastname"
+        }
+      },
+      {
+        "type": "button",
+        "methods": [
+          "click"
+        ],
+        "selectors": {
+          "submit": "input[type='submit'][value='Submit']"
+        }
+      }
+    ]
+  },
+  "people": [
+    {
+      "firstName": "Andrzej",
+      "lastName": "Janusz"
+    }
+  ]
+}
