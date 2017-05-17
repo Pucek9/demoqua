@@ -31,19 +31,32 @@ function generatePom() {
             var cssElelement = byCss(valueName);
             // pom[keyName + capitalizeFirstLetter(element.type)] = cssElelement;
 
-            function clickChild (value) {
-                return cssElelement.element(by.css('option[value="' + value + '"]')).click();
+            function selectOption (value) {
+                cssElelement.click();
+                cssElelement.element(by.css('option[value="' + value + '"]')).click();
+            }
+
+            function setRadio (value) {
+                cssElelement.element(by.css('input[value="' + value + '"]')).click();
+            }
+
+            function getRadio () {
+                var checked = cssElelement.element(by.css('input[type="radio"]:checked'));
+                return checked.getAttribute('value');
             }
 
             function setMethods(method) {
                 var methods = {
                     "enter": cssElelement.sendKeys,
                     "get": cssElelement.getAttribute.bind(this, 'value'),
+                    "getText": cssElelement.getAttribute.bind(this, 'textContent'),
                     "click": cssElelement.click,
                     "set": cssElelement.click,
                     "is": cssElelement.isSelected,
                     "unset": cssElelement.click,
-                    "select": clickChild,
+                    "check": getRadio,
+                    "choose": setRadio,
+                    "select": selectOption
                 };
                 pom[method + capitalizeFirstLetter(keyName) + capitalizeFirstLetter(element.type)] = methods[method];
             }
@@ -79,3 +92,7 @@ function generateInterface(pom) {
 var pom = generatePom();
 generateInterface(pom);
 module.exports = pom;
+//
+// "martialStatusSingle": "input[type='radio'][value='single']",
+//     "martialStatusMarried": "input[type='radio'][value='married']",
+//     "martialStatusDivorced": "input[type='radio'][value='divorced']"

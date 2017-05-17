@@ -15,6 +15,7 @@
           "phoneNumber": "#phone_9",
           "username": "#username",
           "email": "#email_1",
+          "photo": "#profile_pic_10",
           "description": "#description",
           "password": "#password_2",
           "confirmPassword": "#confirm_password_password_2"
@@ -23,11 +24,13 @@
       {
         "type": "label",
         "methods": [
-          "get",
+          "getText",
           "is"
         ],
         "selectors": {
-          "strengthIndicator": "#piereg_passwordStrength"
+          "strengthIndicator": "#piereg_passwordStrength",
+          "successMessage": ".piereg_message",
+          "errorMessage": ".piereg_login_error"
         }
       },
       {
@@ -36,20 +39,17 @@
           "click"
         ],
         "selectors": {
-          "submit": "input[type='submit'][value='Submit']"
+          "submit": "input[type='submit'][value*='Submit']"
         }
       },
       {
         "type": "radio",
         "methods": [
-          "set",
-          "is",
-          "get"
+          "choose",
+          "check"
         ],
         "selectors": {
-          "martialStatusSingle": "input[type='radio'][value='single']",
-          "martialStatusMarried": "input[type='radio'][value='married']",
-          "martialStatusDivorced": "input[type='radio'][value='divorced']"
+          "martialStatus": "#pie_register > li:nth-child(2) div.radio_wrap"
         }
       },
       {
@@ -60,15 +60,14 @@
           "is"
         ],
         "selectors": {
-          "hobbyDance": "input[type='checkbox'][value='dance']",
-          "hobbyReading": "input[type='checkbox'][value='reading']",
-          "hobbyCricket": "input[type='checkbox'][value='cricket']"
+          "hobbyDance": "input[type='checkbox'][value*='dance']",
+          "hobbyReading": "input[type='checkbox'][value*='reading']",
+          "hobbyCricket": "input[type='checkbox'][value*='cricket']"
         }
       },
       {
         "type": "select",
         "methods": [
-          "click",
           "is",
           "get",
           "select"
@@ -85,7 +84,24 @@
   "people": [
     {
       "firstName": "Andrzej",
-      "lastName": "Janusz"
+      "lastName": "Janusz",
+      "country": "Poland",
+      "martialStatus": "married",
+      "hobby": [
+        "cricket",
+        "reading"
+      ],
+      "dateOfBirth": {
+        "day": "28",
+        "month": "5",
+        "year": "1991"
+      },
+      "photo": "C:\\fakepath\\myfoto.jpg",
+      "phoneNumber": "48789123456",
+      "username": "Adrzeusz",
+      "email": "adrzeusz@o2.pl",
+      "description": "like beer and girls",
+      "password": "**********"
     }
   ]
 }
