@@ -3,13 +3,25 @@ var fs = require('fs');
 var util = require('util');
 var config = require('./test.config.json');
 
+var mockObjectForInterfaceStandaloneGenerator = {
+    getAttribute: function () {
+    }
+};
+
 function byCss(value) {
-    return element(by.css(value))
+    if (typeof element !== 'undefined') {
+        return element(by.css(value));
+    }
+    else {
+        return mockObjectForInterfaceStandaloneGenerator;
+    }
 }
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
 
 function generatePom() {
     var pom = {};
@@ -18,6 +30,11 @@ function generatePom() {
         function setName(valueName, keyName) {
             var cssElelement = byCss(valueName);
             // pom[keyName + capitalizeFirstLetter(element.type)] = cssElelement;
+
+            function clickChild (value) {
+                return cssElelement.element(by.css('option[value="' + value + '"]')).click();
+            }
+
             function setMethods(method) {
                 var methods = {
                     "enter": cssElelement.sendKeys,
@@ -25,7 +42,8 @@ function generatePom() {
                     "click": cssElelement.click,
                     "set": cssElelement.click,
                     "is": cssElelement.isSelected,
-                    "unset": cssElelement.click
+                    "unset": cssElelement.click,
+                    "select": clickChild,
                 };
                 pom[method + capitalizeFirstLetter(keyName) + capitalizeFirstLetter(element.type)] = methods[method];
             }
@@ -37,10 +55,9 @@ function generatePom() {
     }
 
     _.forEach(config.page.elements, setType);
+
     return pom;
 }
-
-var pom = generatePom();
 
 function addQutes(value, key) {
     var row = {};
@@ -59,5 +76,6 @@ function generateInterface(pom) {
     fs.writeFileSync('./e2e/demoqa/interface.json', JSON.stringify(pomInterface), 'utf-8');
 }
 
+var pom = generatePom();
 generateInterface(pom);
 module.exports = pom;

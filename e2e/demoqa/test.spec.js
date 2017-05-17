@@ -11,18 +11,18 @@ describe('Protractor Demo App', function() {
         browser.get(config.page.URL);
     });
 
-    it('should have a title', function() {
+    xit('should have a title', function() {
         expect(browser.getTitle()).toEqual(config.page.title);
     });
 
-    it('should type firstname and secondname', function() {
+    xit('should type firstname and secondname', function() {
         pom.enterFirstNameInput(config.people[0].firstName);
         pom.enterLastNameInput(config.people[0].lastName);
         expect(pom.getFirstNameInput()).toEqual(config.people[0].firstName);
         expect(pom.getLastNameInput()).toEqual(config.people[0].lastName);
     });
 
-    it('should be radiobutton selectable', function() {
+    xit('should be radiobutton selectable', function() {
         expect(pom.isMartialStatusSingleRadio()).toEqual(false);
         expect(pom.isMartialStatusMarriedRadio()).toEqual(false);
         expect(pom.isMartialStatusDivorcedRadio()).toEqual(false);
@@ -53,7 +53,7 @@ describe('Protractor Demo App', function() {
         expect(pom.isMartialStatusDivorcedRadio()).toEqual(false);
     });
 
-    it('should be checkbox checkable', function() {
+    xit('should be checkbox checkable', function() {
         expect(pom.isHobbyDanceCheckbox()).toEqual(false);
         expect(pom.isHobbyReadingCheckbox()).toEqual(false);
         expect(pom.isHobbyCricketCheckbox()).toEqual(false);
@@ -87,5 +87,24 @@ describe('Protractor Demo App', function() {
         expect(pom.isHobbyDanceCheckbox()).toEqual(false);
         expect(pom.isHobbyReadingCheckbox()).toEqual(false);
         expect(pom.isHobbyCricketCheckbox()).toEqual(false);
+    });
+
+    it('should be select selectable', function() {
+        expect(pom.getCountrySelect()).toEqual('Afghanistan');
+        pom.clickCountrySelect();
+        pom.selectCountrySelect('Algeria');
+        expect(pom.getCountrySelect()).toEqual('Algeria');
+    });
+
+    xit('should be date of birthday choosable', function() {
+        pom.selectDateOfBirthMonthSelect();
+        pom.selectDateOfBirthDaySelect();
+        pom.selectDateOfBirthYearSelect();
+    });
+
+    xit('should be phonenumber username and email typed', function() {
+        // pom.enterEmailInput
+        // pom.enterUsernameInput
+        // pom.enter
     });
 });

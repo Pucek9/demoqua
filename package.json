@@ -5,7 +5,8 @@
   "main": "protractor.conf.js",
   "scripts": {
     "test": "protractor protractor.conf.js",
-    "start": "webdriver-manager start"
+    "webdriver-start": "webdriver-manager start",
+    "build": "node e2e/demoqa/pom.js"
   },
   "author": "mgruca",
   "license": "ISC",

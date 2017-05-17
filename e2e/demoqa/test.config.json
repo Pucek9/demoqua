@@ -11,7 +11,23 @@
         ],
         "selectors": {
           "firstName": "#name_3_firstname",
-          "lastName": "#name_3_lastname"
+          "lastName": "#name_3_lastname",
+          "phoneNumber": "#phone_9",
+          "username": "#username",
+          "email": "#email_1",
+          "description": "#description",
+          "password": "#password_2",
+          "confirmPassword": "#confirm_password_password_2"
+        }
+      },
+      {
+        "type": "label",
+        "methods": [
+          "get",
+          "is"
+        ],
+        "selectors": {
+          "strengthIndicator": "#piereg_passwordStrength"
         }
       },
       {
@@ -26,23 +42,42 @@
       {
         "type": "radio",
         "methods": [
-          "set", "is", "get"
+          "set",
+          "is",
+          "get"
         ],
         "selectors": {
-          "martialStatusSingle": "input[type='radio']:nth-child(2)",
-          "martialStatusMarried": "input[type='radio']:nth-child(4)",
-          "martialStatusDivorced": "input[type='radio']:nth-child(6)"
+          "martialStatusSingle": "input[type='radio'][value='single']",
+          "martialStatusMarried": "input[type='radio'][value='married']",
+          "martialStatusDivorced": "input[type='radio'][value='divorced']"
         }
       },
       {
         "type": "checkbox",
         "methods": [
-          "set", "unset", "is"
+          "set",
+          "unset",
+          "is"
         ],
         "selectors": {
-          "hobbyDance": "input[type='checkbox']:nth-child(2)",
-          "hobbyReading": "input[type='checkbox']:nth-child(4)",
-          "hobbyCricket": "input[type='checkbox']:nth-child(6)"
+          "hobbyDance": "input[type='checkbox'][value='dance']",
+          "hobbyReading": "input[type='checkbox'][value='reading']",
+          "hobbyCricket": "input[type='checkbox'][value='cricket']"
+        }
+      },
+      {
+        "type": "select",
+        "methods": [
+          "click",
+          "is",
+          "get",
+          "select"
+        ],
+        "selectors": {
+          "country": "#dropdown_7",
+          "dateOfBirthMonth": "#mm_date_8",
+          "dateOfBirthDay": "#dd_date_8",
+          "dateOfBirthYear": "#yy_date_8"
         }
       }
     ]
