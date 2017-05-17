@@ -22,6 +22,28 @@
         "selectors": {
           "submit": "input[type='submit'][value='Submit']"
         }
+      },
+      {
+        "type": "radio",
+        "methods": [
+          "set", "is", "get"
+        ],
+        "selectors": {
+          "martialStatusSingle": "input[type='radio']:nth-child(2)",
+          "martialStatusMarried": "input[type='radio']:nth-child(4)",
+          "martialStatusDivorced": "input[type='radio']:nth-child(6)"
+        }
+      },
+      {
+        "type": "checkbox",
+        "methods": [
+          "set", "unset", "is"
+        ],
+        "selectors": {
+          "hobbyDance": "input[type='checkbox']:nth-child(2)",
+          "hobbyReading": "input[type='checkbox']:nth-child(4)",
+          "hobbyCricket": "input[type='checkbox']:nth-child(6)"
+        }
       }
     ]
   },

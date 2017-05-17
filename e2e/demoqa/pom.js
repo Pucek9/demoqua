@@ -22,7 +22,10 @@ function generatePom() {
                 var methods = {
                     "enter": cssElelement.sendKeys,
                     "get": cssElelement.getAttribute.bind(this, 'value'),
-                    "click": cssElelement.click
+                    "click": cssElelement.click,
+                    "set": cssElelement.click,
+                    "is": cssElelement.isSelected,
+                    "unset": cssElelement.click
                 };
                 pom[method + capitalizeFirstLetter(keyName) + capitalizeFirstLetter(element.type)] = methods[method];
             }
