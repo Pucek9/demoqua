@@ -29,7 +29,7 @@ function generatePom() {
     function setType(element) {
         function setName(valueName, keyName) {
             var cssElelement = byCss(valueName);
-            // pom[keyName + capitalizeFirstLetter(element.type)] = cssElelement;
+            pom[keyName + capitalizeFirstLetter(element.type)] = cssElelement;
 
             function selectOption (value) {
                 cssElelement.click();
@@ -40,21 +40,27 @@ function generatePom() {
                 cssElelement.element(by.css('input[value="' + value + '"]')).click();
             }
 
-            function getRadio () {
+            function getCheckedRadio () {
                 var checked = cssElelement.element(by.css('input[type="radio"]:checked'));
                 return checked.getAttribute('value');
+            }
+
+            function isCheckedRadio (value) {
+                return cssElelement.element(by.css('input[type="radio"][value="'+value+'"]')).isSelected()
             }
 
             function setMethods(method) {
                 var methods = {
                     "enter": cssElelement.sendKeys,
+                    "clear": cssElelement.clear,
                     "get": cssElelement.getAttribute.bind(this, 'value'),
                     "getText": cssElelement.getAttribute.bind(this, 'textContent'),
                     "click": cssElelement.click,
                     "set": cssElelement.click,
                     "is": cssElelement.isSelected,
                     "unset": cssElelement.click,
-                    "check": getRadio,
+                    "getChecked": getCheckedRadio,
+                    "isChecked": isCheckedRadio,
                     "choose": setRadio,
                     "select": selectOption
                 };

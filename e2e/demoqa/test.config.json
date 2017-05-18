@@ -7,7 +7,8 @@
         "type": "input",
         "methods": [
           "enter",
-          "get"
+          "get",
+          "clear"
         ],
         "selectors": {
           "firstName": "#name_3_firstname",
@@ -46,7 +47,8 @@
         "type": "radio",
         "methods": [
           "choose",
-          "check"
+          "getChecked",
+          "isChecked"
         ],
         "selectors": {
           "martialStatus": "#pie_register > li:nth-child(2) div.radio_wrap"
@@ -102,6 +104,27 @@
       "email": "adrzeusz@o2.pl",
       "description": "like beer and girls",
       "password": "**********"
+    },
+    {
+      "firstName": "Asdaajkh34jqhj234n5jkq24j32s",
+      "lastName": "Asdgafgag976as78gasdfsdajfsd",
+      "country": "Seychelles",
+      "martialStatus": "divorced",
+      "hobby": [
+        "reading",
+        "dance"
+      ],
+      "dateOfBirth": {
+        "day": "13",
+        "month": "8",
+        "year": "2002"
+      },
+      "photo": "C:\\fakepath\\myfoto2.jpg",
+      "phoneNumber": "48775467456",
+      "username": "asdasd",
+      "email": "asdasd@o2.pl",
+      "description": "",
+      "password": "dupa"
     }
   ]
 }

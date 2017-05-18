@@ -1,72 +1,62 @@
 var _ = require('lodash');
+var config = require('./test.config.json');
+
 var pom = require('./interface.json');
 var dynamicPom = require('./pom.js');
-var config = require('./test.config.json');
 _.assign(pom, dynamicPom);
 
-describe('Checking all controlls', function() {
+function waitForElem(elem, time) {
+    var DEFAULT_TIME = 5000;
+    time = time || DEFAULT_TIME;
+    browser.wait(protractor.ExpectedConditions.presenceOf(elem), time, 'Element taking too long to appear in the DOM')
+}
 
-    beforeEach(function() {
+xdescribe('Checking all controlls', function () {
+
+    beforeEach(function () {
         browser.get(config.page.URL);
     });
 
-    it('should have a title', function() {
+    it('should have a title', function () {
         expect(browser.getTitle()).toEqual(config.page.title);
     });
 
-    it('should type firstname and secondname', function() {
-        pom.enterFirstNameInput(config.people[0].firstName);
-        pom.enterLastNameInput(config.people[0].lastName);
-        expect(pom.getFirstNameInput()).toEqual(config.people[0].firstName);
-        expect(pom.getLastNameInput()).toEqual(config.people[0].lastName);
-    });
-
-    it('should be radiobutton selectable', function() {
+    it('should be radiobutton selectable', function () {
 
         pom.chooseMartialStatusRadio('single');
-        expect(pom.checkMartialStatusRadio()).toEqual('single');
+        expect(pom.getCheckedMartialStatusRadio()).toEqual('single');
+        expect(pom.isCheckedMartialStatusRadio('single')).toEqual(true);
+        expect(pom.isCheckedMartialStatusRadio('married')).toEqual(false);
+        expect(pom.isCheckedMartialStatusRadio('divorced')).toEqual(false);
 
         pom.chooseMartialStatusRadio('married');
-        expect(pom.checkMartialStatusRadio()).toEqual('married');
+        expect(pom.getCheckedMartialStatusRadio()).toEqual('married');
+        expect(pom.isCheckedMartialStatusRadio('single')).toEqual(false);
+        expect(pom.isCheckedMartialStatusRadio('divorced')).toEqual(false);
 
         pom.chooseMartialStatusRadio('divorced');
-        expect(pom.checkMartialStatusRadio()).toEqual('divorced');
+        expect(pom.getCheckedMartialStatusRadio()).toEqual('divorced');
+        expect(pom.isCheckedMartialStatusRadio('single')).toEqual(false);
+        expect(pom.isCheckedMartialStatusRadio('married')).toEqual(false);
 
-        // expect(pom.isMartialStatusSingleRadio()).toEqual(false);
-        // expect(pom.isMartialStatusMarriedRadio()).toEqual(false);
-        // expect(pom.isMartialStatusDivorcedRadio()).toEqual(false);
-        //
-        // pom.setMartialStatusSingleRadio();
-        // expect(pom.isMartialStatusSingleRadio()).toEqual(true);
-        // expect(pom.isMartialStatusMarriedRadio()).toEqual(false);
-        // expect(pom.isMartialStatusDivorcedRadio()).toEqual(false);
-        //
-        // pom.setMartialStatusMarriedRadio();
-        // expect(pom.isMartialStatusSingleRadio()).toEqual(false);
-        // expect(pom.isMartialStatusMarriedRadio()).toEqual(true);
-        // expect(pom.isMartialStatusDivorcedRadio()).toEqual(false);
-        //
-        // pom.setMartialStatusDivorcedRadio();
-        // expect(pom.isMartialStatusSingleRadio()).toEqual(false);
-        // expect(pom.isMartialStatusMarriedRadio()).toEqual(false);
-        // expect(pom.isMartialStatusDivorcedRadio()).toEqual(true);
-        //
-        // pom.setMartialStatusMarriedRadio();
-        // expect(pom.isMartialStatusSingleRadio()).toEqual(false);
-        // expect(pom.isMartialStatusMarriedRadio()).toEqual(true);
-        // expect(pom.isMartialStatusDivorcedRadio()).toEqual(false);
-        //
-        // pom.setMartialStatusSingleRadio();
-        // expect(pom.isMartialStatusSingleRadio()).toEqual(true);
-        // expect(pom.isMartialStatusMarriedRadio()).toEqual(false);
-        // expect(pom.isMartialStatusDivorcedRadio()).toEqual(false);
+        pom.chooseMartialStatusRadio('married');
+        expect(pom.getCheckedMartialStatusRadio()).toEqual('married');
+        expect(pom.isCheckedMartialStatusRadio('single')).toEqual(false);
+        expect(pom.isCheckedMartialStatusRadio('divorced')).toEqual(false);
+
+        pom.chooseMartialStatusRadio('single');
+        expect(pom.getCheckedMartialStatusRadio()).toEqual('single');
+        expect(pom.isCheckedMartialStatusRadio('married')).toEqual(false);
+        expect(pom.isCheckedMartialStatusRadio('divorced')).toEqual(false);
     });
 
-    it('should be checkbox checkable', function() {
+    it('should be checkbox unchecked', function () {
         expect(pom.isHobbyDanceCheckbox()).toEqual(false);
         expect(pom.isHobbyReadingCheckbox()).toEqual(false);
         expect(pom.isHobbyCricketCheckbox()).toEqual(false);
+    });
 
+    it('should be checkbox checkable', function () {
         pom.setHobbyDanceCheckbox();
         expect(pom.isHobbyDanceCheckbox()).toEqual(true);
         expect(pom.isHobbyReadingCheckbox()).toEqual(false);
@@ -98,128 +88,155 @@ describe('Checking all controlls', function() {
         expect(pom.isHobbyCricketCheckbox()).toEqual(false);
     });
 
-    it('should be select selectable', function() {
+    it('should be select default', function () {
         expect(pom.getCountrySelect()).toEqual('Afghanistan');
-        pom.selectCountrySelect(config.people[0].country);
-        expect(pom.getCountrySelect()).toEqual(config.people[0].country);
     });
 
-    it('should be date of birthday choosable', function() {
+
+    it('should be date of birthday default empty', function () {
         expect(pom.getDateOfBirthMonthSelect()).toEqual('');
         expect(pom.getDateOfBirthDaySelect()).toEqual('');
         expect(pom.getDateOfBirthYearSelect()).toEqual('');
-
-        pom.selectDateOfBirthMonthSelect(config.people[0].dateOfBirth.month);
-        pom.selectDateOfBirthDaySelect(config.people[0].dateOfBirth.day);
-        pom.selectDateOfBirthYearSelect(config.people[0].dateOfBirth.year);
-
-        expect(pom.getDateOfBirthMonthSelect()).toEqual(config.people[0].dateOfBirth.month);
-        expect(pom.getDateOfBirthDaySelect()).toEqual(config.people[0].dateOfBirth.day);
-        expect(pom.getDateOfBirthYearSelect()).toEqual(config.people[0].dateOfBirth.year);
     });
 
-    it('should be photo loaded', function() {
-        pom.enterPhotoInput(config.people[0].photo);
-        expect(pom.getPhotoInput()).toEqual(config.people[0].photo);
+
+    it('should be radiobutton unselected', function () {
+        var statuses = ['single', 'married', 'divorced'];
+        _.forEach(statuses, function (status) {
+            expect(pom.isCheckedMartialStatusRadio(status)).toEqual(false);
+        });
     });
 
-    it('should be phonenumber, username, email, description and passwords typed', function() {
-        pom.enterPhoneNumberInput(config.people[0].phoneNumber);
-        pom.enterUsernameInput(config.people[0].username);
-        pom.enterEmailInput(config.people[0].email);
-        pom.enterDescriptionInput(config.people[0].description);
-        pom.enterPasswordInput(config.people[0].password);
-        pom.enterConfirmPasswordInput(config.people[0].password);
+    _.forEach(config.people, function (person) {
 
-        expect(pom.getPhoneNumberInput()).toEqual(config.people[0].phoneNumber);
-        expect(pom.getEmailInput()).toEqual(config.people[0].email);
-        expect(pom.getUsernameInput()).toEqual(config.people[0].username);
-        expect(pom.getDescriptionInput()).toEqual(config.people[0].description);
-        expect(pom.getPasswordInput()).toEqual(config.people[0].password);
-        expect(pom.getConfirmPasswordInput()).toEqual(config.people[0].password);
+        it('should type firstname and secondname', function () {
+            pom.enterFirstNameInput(person.firstName);
+            expect(pom.getFirstNameInput()).toEqual(person.firstName);
+            pom.enterLastNameInput(person.lastName);
+            expect(pom.getLastNameInput()).toEqual(person.lastName);
+            pom.clearFirstNameInput();
+            expect(pom.getFirstNameInput()).toEqual('');
+            pom.clearLastNameInput();
+            expect(pom.getLastNameInput()).toEqual('');
+        });
+
+        it('should be date of birthday choosable', function () {
+            pom.selectDateOfBirthMonthSelect(person.dateOfBirth.month);
+            pom.selectDateOfBirthDaySelect(person.dateOfBirth.day);
+            pom.selectDateOfBirthYearSelect(person.dateOfBirth.year);
+
+            expect(pom.getDateOfBirthMonthSelect()).toEqual(person.dateOfBirth.month);
+            expect(pom.getDateOfBirthDaySelect()).toEqual(person.dateOfBirth.day);
+            expect(pom.getDateOfBirthYearSelect()).toEqual(person.dateOfBirth.year);
+        });
+
+        it('should be photo loaded', function () {
+            pom.enterPhotoInput(person.photo);
+            expect(pom.getPhotoInput()).toEqual(person.photo);
+        });
+
+        it('should be select selectable', function () {
+            pom.selectCountrySelect(person.country);
+            expect(pom.getCountrySelect()).toEqual(person.country);
+        });
+
+        it('should be phonenumber, username, email, description and passwords typed', function () {
+            pom.enterPhoneNumberInput(person.phoneNumber);
+            pom.enterUsernameInput(person.username);
+            pom.enterEmailInput(person.email);
+            pom.enterDescriptionInput(person.description);
+            pom.enterPasswordInput(person.password);
+            pom.enterConfirmPasswordInput(person.password);
+
+            expect(pom.getPhoneNumberInput()).toEqual(person.phoneNumber);
+            expect(pom.getEmailInput()).toEqual(person.email);
+            expect(pom.getUsernameInput()).toEqual(person.username);
+            expect(pom.getDescriptionInput()).toEqual(person.description);
+            expect(pom.getPasswordInput()).toEqual(person.password);
+            expect(pom.getConfirmPasswordInput()).toEqual(person.password);
+        });
     });
+
 });
 
-describe('Should login', function() {
+describe('Should login', function () {
+    //
+    // beforeAll(function () {
+    //     browser.get(config.page.URL);
+    // });
 
-    beforeEach(function() {
+    var person = config.people[0];
+
+    it('should type names', function () {
+        browser.get(config.page.URL);
+        pom.enterFirstNameInput(person.firstName);
+        expect(pom.getFirstNameInput()).toEqual(person.firstName);
+
+        pom.enterLastNameInput(person.lastName);
+        expect(pom.getLastNameInput()).toEqual(person.lastName);
     });
 
-    it('should type names', function() {
-        browser.get(config.page.URL);
+    it('should set martial status', function () {
+        pom.chooseMartialStatusRadio(person.martialStatus);
+        expect(pom.getCheckedMartialStatusRadio()).toEqual(person.martialStatus);
+    });
 
-        pom.enterFirstNameInput(config.people[0].firstName);
-        pom.enterLastNameInput(config.people[0].lastName);
-        expect(pom.getFirstNameInput()).toEqual(config.people[0].firstName);
-        expect(pom.getLastNameInput()).toEqual(config.people[0].lastName);
-
-        pom.chooseMartialStatusRadio(config.people[0].martialStatus);
-        switch(config.people[0].martialStatus) {
-            case ('single'): {
-                expect(pom.checkMartialStatusRadio()).toEqual('single');
-                break;
-            }
-            case ('married'): {
-                expect(pom.checkMartialStatusRadio()).toEqual('married');
-                break;
-            }
-            case ('divorced'): {
-                expect(pom.checkMartialStatusRadio()).toEqual('divorced');
-                break;
-            }
-            default: break;
-        }
-
-
-        if (_.includes(config.people[0].hobby, 'cricket')) {
+    it('should set hobbys', function () {
+        if (_.includes(person.hobby, 'cricket')) {
             pom.setHobbyCricketCheckbox();
             expect(pom.isHobbyCricketCheckbox()).toEqual(true);
         }
-        if (_.includes(config.people[0].hobby, 'dance')) {
+        if (_.includes(person.hobby, 'dance')) {
             pom.setHobbyDanceCheckbox();
             expect(pom.isHobbyDanceCheckbox()).toEqual(true);
         }
-        if (_.includes(config.people[0].hobby, 'reading')) {
+        if (_.includes(person.hobby, 'reading')) {
             pom.setHobbyReadingCheckbox();
             expect(pom.isHobbyReadingCheckbox()).toEqual(true);
         }
-
-        expect(pom.getCountrySelect()).toEqual('Afghanistan');
-        pom.selectCountrySelect(config.people[0].country);
-        expect(pom.getCountrySelect()).toEqual(config.people[0].country);
-
-        pom.selectDateOfBirthMonthSelect(config.people[0].dateOfBirth.month);
-        pom.selectDateOfBirthDaySelect(config.people[0].dateOfBirth.day);
-        pom.selectDateOfBirthYearSelect(config.people[0].dateOfBirth.year);
-
-        expect(pom.getDateOfBirthMonthSelect()).toEqual(config.people[0].dateOfBirth.month);
-        expect(pom.getDateOfBirthDaySelect()).toEqual(config.people[0].dateOfBirth.day);
-        expect(pom.getDateOfBirthYearSelect()).toEqual(config.people[0].dateOfBirth.year);
-
-        pom.enterPhoneNumberInput(config.people[0].phoneNumber);
-        pom.enterUsernameInput(config.people[0].username);
-        pom.enterEmailInput(config.people[0].email);
-        pom.enterPhotoInput(config.people[0].photo);
-        pom.enterDescriptionInput(config.people[0].description);
-        pom.enterPasswordInput(config.people[0].password);
-        pom.enterConfirmPasswordInput(config.people[0].password);
-
-        expect(pom.getPhoneNumberInput()).toEqual(config.people[0].phoneNumber);
-        expect(pom.getEmailInput()).toEqual(config.people[0].email);
-        expect(pom.getPhotoInput()).toEqual(config.people[0].photo);
-        expect(pom.getUsernameInput()).toEqual(config.people[0].username);
-        expect(pom.getDescriptionInput()).toEqual(config.people[0].description);
-        expect(pom.getPasswordInput()).toEqual(config.people[0].password);
-        expect(pom.getConfirmPasswordInput()).toEqual(config.people[0].password);
-
-        pom.clickSubmitButton();
-        // setTimeout(function() {
-        //     expect(pom.getTextErrorMessageLabel()).toEqual('Error: Username already exists');
-        // }, 500)
-        // expect(pom.getTextSuccessMessageLabel()).toEqual('Thank you for your registration');
-
-
     });
 
+    it('should set country and birthdate', function () {
+        expect(pom.getCountrySelect()).toEqual('Afghanistan');
+        pom.selectCountrySelect(person.country);
+        expect(pom.getCountrySelect()).toEqual(person.country);
+
+        pom.selectDateOfBirthMonthSelect(person.dateOfBirth.month);
+        pom.selectDateOfBirthDaySelect(person.dateOfBirth.day);
+        pom.selectDateOfBirthYearSelect(person.dateOfBirth.year);
+
+        expect(pom.getDateOfBirthMonthSelect()).toEqual(person.dateOfBirth.month);
+        expect(pom.getDateOfBirthDaySelect()).toEqual(person.dateOfBirth.day);
+        expect(pom.getDateOfBirthYearSelect()).toEqual(person.dateOfBirth.year);
+    });
+
+    it('should set rest of data', function () {
+        pom.enterPhoneNumberInput(person.phoneNumber);
+        pom.enterUsernameInput(person.username);
+        pom.enterEmailInput(person.email);
+        pom.enterPhotoInput(person.photo);
+        pom.enterDescriptionInput(person.description);
+        pom.enterPasswordInput(person.password);
+        pom.enterConfirmPasswordInput(person.password);
+
+        expect(pom.getPhoneNumberInput()).toEqual(person.phoneNumber);
+        expect(pom.getEmailInput()).toEqual(person.email);
+        expect(pom.getPhotoInput()).toEqual(person.photo);
+        expect(pom.getUsernameInput()).toEqual(person.username);
+        expect(pom.getDescriptionInput()).toEqual(person.description);
+        expect(pom.getPasswordInput()).toEqual(person.password);
+        expect(pom.getConfirmPasswordInput()).toEqual(person.password);
+    });
+
+    it('should click submit and see result', function () {
+        pom.clickSubmitButton();
+
+        browser.pause(10000);
+        // waitForElem(pom.errorMessageLabel);
+        expect(pom.getTextErrorMessageLabel()).toEqual('Error: Username already exists')
+        browser.pause(10000);
+        //expect(pom.getTextSuccessMessageLabel()).toEqual('Thank you for your registration');
+
+    });
 
 });
